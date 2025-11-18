@@ -22,6 +22,21 @@ def dame_animales_nombre_refugio(request, nombreAnimal, nombreRefugio):
 
     return render(request, 'lista_animales.html',{'Animales_Mostrar':animales})
 
+# URL 2 (DEVOLVER LISTA DE ANIMALES SEGUN FABRICANTE O NOMBRE DE VACUNA Y LA PUNTUACION DE SALUD DE REVISION VETERINARIA > 80)
+
+def dame_animales_fabricante_vacuna(request, fabricanteVacuna, nombreVacuna):
+
+    animales = (
+        Animal.objects
+        .select_related("centro__refugio")
+        .prefetch_related("vacuna", "animalRevisionVeterinaria")
+        .filter(Q(vacuna__fabricante = 'Zoetis')|Q(vacuna__nombre__icontains = 'Rabia'))
+        .filter(animalRevisionVeterinaria__puntuacion_salud__gt=80)
+        [:3].all()
+    )
+
+    return render(request, 'lista_animales.html',{'Animales_Mostrar':animales})
+
 # Errores
 def mi_error_404(request,exception=None):
     return render(request,'error/404.html',None,None,404)
