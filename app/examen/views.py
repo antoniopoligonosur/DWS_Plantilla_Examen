@@ -67,6 +67,22 @@ def dame_refugios_anioRevision(request, anioRevision):
 
     return render(request, 'lista_refugios.html',{'Refugios_Mostrar':refugios})
 
+# URL 5 (DEVOLVER LISTA DE ANIMALES DE UN CENTRO CONCRETO QUE TIENEN UNA MEDIA DE PUNTUACION DE SALUD MENOR QUE 50)
+
+def dame_animales_centro_puntuacion(request, centroConcreto):
+
+    animales = (
+        Animal.objects
+        .select_related("centro__refugio")
+        .prefetch_related("vacuna", "animalRevisionVeterinaria")  
+        .filter(centro__nombre=centroConcreto)
+        .annotate(media = Avg("animalRevisionVeterinaria__puntuacion_salud"))
+        .filter(media__lt=50)
+        .all()
+    )
+
+    return render(request, 'lista_animales.html',{'Animales_Mostrar':animales})
+
 # Errores
 def mi_error_404(request,exception=None):
     return render(request,'error/404.html',None,None,404)

@@ -7,4 +7,5 @@ urlpatterns = [
     path('lista/animales/<str:fabricanteVacuna>/<str:nombreVacuna>',views.dame_animales_fabricante_vacuna, name='dame_animales_fabricante_vacuna'),
     path('lista/animales-con-AnimalVacuna-None/',views.dame_animales_animalVacuna_null, name='dame_animales_animalVacuna_null'),
     path('lista/refugios/<int:anioRevision>',views.dame_refugios_anioRevision, name='dame_refugios_anioRevision'),
+    path('lista/animales/<str:centroConcreto>',views.dame_animales_centro_puntuacion, name='dame_animales_centro_puntuacion'),
 ]
