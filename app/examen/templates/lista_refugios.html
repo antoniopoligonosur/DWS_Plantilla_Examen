@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="eS">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Refugios</title>
+</head>
+<body>
+    <h1>Lista Refugios</h1>
+
+    {% for refugio in Refugios_Mostrar %}
+    <hr>
+    <h3>Nombre: {{refugio.nombre}}</h3>
+    <hr>
+    {% endfor %}
+
+</body>
+</html>

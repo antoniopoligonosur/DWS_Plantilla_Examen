@@ -52,6 +52,20 @@ def dame_animales_animalVacuna_null(request):
 
     return render(request, 'lista_animales.html',{'Animales_Mostrar':animales})
 
+# URL 4 (DEVOLVER LISTA DE REFUGIOS QUE TIENEN ANIMALES CON REVISION VETERINARIA EN UN AÑO DETERMINADO, ORDENADOS POR PUNTUACION DE SALUD DESCENDENTE)
+
+def dame_refugios_anioRevision(request, anioRevision):
+
+    refugios = (
+        Refugio.objects
+        .prefetch_related("refugioCentro__centroAnimal__animalRevisionVeterinaria")
+        .filter(refugioCentro__centroAnimal__animalRevisionVeterinaria__fecha_revision__year=anioRevision)
+        .order_by('-refugioCentro__centroAnimal__animalRevisionVeterinaria__puntuacion_salud')
+        .all()
+        .distinct()
+    )
+
+    return render(request, 'lista_refugios.html',{'Refugios_Mostrar':refugios})
 
 # Errores
 def mi_error_404(request,exception=None):
