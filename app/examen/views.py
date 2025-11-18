@@ -83,6 +83,21 @@ def dame_animales_centro_puntuacion(request, centroConcreto):
 
     return render(request, 'lista_animales.html',{'Animales_Mostrar':animales})
 
+# URL 6 (DEVOLVER LA ULTIMA REVISION VETERINARIA REALIZADA POR UN VETERINARIO CONCRETO A ANIMALES QUE HAN SIDO VACUNADOS CON UNA VACUNA DE UN FABRICANTE DETERMINADO Y QUE PERTENECEN A UN CENTRO DE UN REFUGIO CONCRETO)
+
+def dame_animales_revision_veterinaria(request, veterinarioConcreto, fabricanteVacuna, centroRefugio):
+
+    revisiones = (
+        Revision_veterinaria.objects
+        .select_related("animal__centro__refugio")
+        .filter(veterinario = veterinarioConcreto)
+        .filter(animal__vacuna__fabricante = fabricanteVacuna)
+        .filter(animal__centro__nombre__icontains = centroRefugio)
+        .order_by('-fecha_revision')[:1].get()
+    )
+
+    return render(request, 'revision_veterinaria.html',{'Revisiones_Mostrar':revisiones})
+
 # Errores
 def mi_error_404(request,exception=None):
     return render(request,'error/404.html',None,None,404)
