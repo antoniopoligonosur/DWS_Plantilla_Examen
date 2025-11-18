@@ -30,12 +30,28 @@ def dame_animales_fabricante_vacuna(request, fabricanteVacuna, nombreVacuna):
         Animal.objects
         .select_related("centro__refugio")
         .prefetch_related("vacuna", "animalRevisionVeterinaria")
-        .filter(Q(vacuna__fabricante = 'Zoetis')|Q(vacuna__nombre__icontains = 'Rabia'))
+        .filter(Q(vacuna__fabricante = fabricanteVacuna)|Q(vacuna__nombre__icontains = nombreVacuna))
         .filter(animalRevisionVeterinaria__puntuacion_salud__gt=80)
         [:3].all()
     )
 
     return render(request, 'lista_animales.html',{'Animales_Mostrar':animales})
+
+# URL 3 (DEVOLVER LISTA DE ANIMALES QUE NO TIENEN NINGUNA VACUNA ASIGNADA)
+
+def dame_animales_animalVacuna_null(request):
+
+    animales = (
+        Animal.objects
+        .select_related("centro__refugio")
+        .prefetch_related("vacuna", "animalRevisionVeterinaria")  
+        .filter(vacuna__id=None)
+        .order_by('-edad_estimada')
+        .all()
+    )
+
+    return render(request, 'lista_animales.html',{'Animales_Mostrar':animales})
+
 
 # Errores
 def mi_error_404(request,exception=None):
