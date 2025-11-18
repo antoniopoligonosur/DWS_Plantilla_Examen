@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Animales</title>
+</head>
+<body>
+    
+    <h1>Lista de Animales</h1>
+
+    {% for animal in Animales_Mostrar %}
+    <hr>
+    <h3>Nombre: {{animal.nombre}}</h3>
+    <h3>Edad estimada: {{animal.edad_estimada}}</h3>
+
+    <h3>Centro: {{animal.centro.nombre}}</h3>
+
+    <h3>Vacuna</h3>
+    <ul>
+        {% for vacuna in animal.vacuna.all %}
+            <li>Nombre: {{vacuna.nombre}}</li>
+            <li>Fabricante: {{vacuna.fabricante}}</li>
+            <br>
+        {% endfor %}
+    </ul>
+    <hr>
+    {% endfor %}
+
+</body>
+</html>

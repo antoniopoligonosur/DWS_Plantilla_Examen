@@ -1,12 +1,26 @@
 from django.shortcuts import render
 from django.views.defaults import page_not_found
+from .models import Refugio, Centro, Animal, Vacuna, Revision_veterinaria
+from django.db.models import Q , Prefetch, Avg, Max, Min
 
 # Create your views here.
 
 def index(request):
     return render(request, 'index.html')
 
+# URL 1 (DEVOLVER LISTA DE ANIMALES SEGUN NOMBRE Y REFUGIO)
 
+def dame_animales_nombre_refugio(request, nombreAnimal, nombreRefugio):
+
+    animales = (
+        Animal.objects
+        .select_related("centro__refugio")
+        .prefetch_related("vacuna")
+        .filter(nombre__icontains = nombreAnimal, centro__refugio__nombre = nombreRefugio)
+        .all()
+    )
+
+    return render(request, 'lista_animales.html',{'Animales_Mostrar':animales})
 
 # Errores
 def mi_error_404(request,exception=None):

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,12 +8,12 @@
 <body>
     
     <h1>Lista de enlaces</h1>
-    <p>Examen Django - Manuel Avecilla</p>
+    <p>Examen Django - Antonio Mateos Delgado</p>
     <hr>
     <br>
 
     <ul>
-        <li><a href="">Enlace URL 1</a></li>
+        <li><a href="{% url 'dame_animales_nombre_refugio' nombreAnimal="Max" nombreRefugio="AnimalesFelices" %}">URL 1: dame_animales_nombre_refugio</a></li>
         <li><a href="">Enlace URL 2</a></li>
         <li><a href="">Enlace URL 3</a></li>
     </ul>
